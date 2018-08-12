@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlanetModel : MonoBehaviour
+public class StellarBodyModel : MonoBehaviour
 {
     public float mass = 1.0f;
 }

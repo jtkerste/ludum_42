@@ -54,7 +54,7 @@ public class StellarBodyController : MonoBehaviour
             {
                 model.isTarget = false;
             }
-            model.mass = planet.transform.localScale.x;
+            model.mass = planet.transform.localScale.x * 10;
             _stellarBodyModels.Add(planet.GetComponent<StellarBodyModel>());
         }
     }
@@ -89,14 +89,20 @@ public class StellarBodyController : MonoBehaviour
     {
         if (!_stellarBodyModels.Contains(one)) return;
         one.mass += two.mass;
-        one.transform.localScale = Vector3.one * one.mass;
+        one.transform.localScale = Vector3.one * one.mass / 5.0f;
         _stellarBodyModels.Remove(two);
         Destroy(two.gameObject);
     }
 
     public void ThisEatsShip(StellarBodyModel one, ShipModel ship)
     {
-        one.mass += ship.mass;
-        one.transform.localScale = Vector3.one * one.mass;
+        one.mass += 0.5f;
+        one.transform.localScale = Vector3.one * one.mass / 5.0f;
+    }
+
+    public void AddMassTo(StellarBodyModel one, float mass)
+    {
+        one.mass += mass;
+        one.transform.localScale = Vector3.one * one.mass / 5.0f;
     }
 }

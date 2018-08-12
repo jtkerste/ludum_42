@@ -45,14 +45,14 @@ public class BlackHoleController : MonoBehaviour
             // initialize
             GameObject blackHole = Instantiate(blackHolePrefab);
             blackHole.transform.parent = blackHoleContainer;
-
+            blackHole.transform.localScale = Vector3.one * startSize;
             Vector3 position = camera.ScreenToWorldPoint(mousePosition);
             position.z = 0;
 
             blackHole.transform.position = position;
 
             StellarBodyModel stellarBodyModel = blackHole.GetComponent<StellarBodyModel>();
-
+            stellarBodyModel.mass = startMass;
             // add the black hole to the stellar body controller
             _stellarBodyController.AddBody(stellarBodyModel);
 
@@ -60,8 +60,8 @@ public class BlackHoleController : MonoBehaviour
             while (Input.GetMouseButton(0))
             {
                 // slowly grow the black hole
-                blackHole.transform.localScale += Vector3.one * sizeGrowthRate * Time.deltaTime;
                 stellarBodyModel.mass += massGrowthRate * Time.deltaTime;
+                stellarBodyModel.transform.localScale = Vector3.one * stellarBodyModel.mass / 5.0f;
                 yield return null;
             }   
         }

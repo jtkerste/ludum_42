@@ -28,6 +28,10 @@ public class BlackHoleView : MonoBehaviour
             _stellarBodyController.ThisEatsShip(stellarBodyModel, other.GetComponent<ShipModel>());
             _shipController.ShipAte();
         }
+        else if (other.tag == "Asteroid")
+        {
+            _stellarBodyController.AddMassTo(stellarBodyModel, other.GetComponent<AsteroidModel>().mass);
+        }
     }
 
     // Update is called once per frame

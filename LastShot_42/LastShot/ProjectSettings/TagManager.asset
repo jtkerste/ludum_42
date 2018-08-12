@@ -6,6 +6,8 @@ TagManager:
   tags:
   - StellarBody
   - Ship
+  - Asteroid
+  - AsteroidCatch
   layers:
   - Default
   - TransparentFX

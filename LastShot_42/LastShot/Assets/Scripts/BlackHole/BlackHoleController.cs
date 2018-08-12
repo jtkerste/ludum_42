@@ -53,6 +53,9 @@ public class BlackHoleController : MonoBehaviour
 
             StellarBodyModel stellarBodyModel = blackHole.GetComponent<StellarBodyModel>();
 
+            // add the black hole to the stellar body controller
+            _stellarBodyController.AddBody(stellarBodyModel);
+
             // wait until release
             while (Input.GetMouseButton(0))
             {
@@ -60,10 +63,7 @@ public class BlackHoleController : MonoBehaviour
                 blackHole.transform.localScale += Vector3.one * sizeGrowthRate * Time.deltaTime;
                 stellarBodyModel.mass += massGrowthRate * Time.deltaTime;
                 yield return null;
-            }
-
-            // add the black hole to the stellar body controller
-            _stellarBodyController.AddBody(stellarBodyModel);
+            }   
         }
     }
 

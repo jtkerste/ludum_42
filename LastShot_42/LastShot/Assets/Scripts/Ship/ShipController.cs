@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    public bool isMoving = false;
+
     public bool useRealGravity = false;
 
     public Vector3 initialThrustDirection;
@@ -62,24 +64,24 @@ public class ShipController : MonoBehaviour
 
         _shipRigidBody.isKinematic = true;
         _launched = false;
+        isMoving = false;
     }
 
-
-    private void Update()
+    public void Launch()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (_shipRigidBody && !_launched)
         {
-            Destroy(_ship);
-            _SetUpShip();
+            _shipRigidBody.isKinematic = false;
+            _shipRigidBody.AddForce(initialThrustDirection.normalized * initialThrustForce);
+            _launched = true;
+            isMoving = true;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_shipRigidBody && !_launched)
-            {
-                _shipRigidBody.isKinematic = false;
-                _shipRigidBody.AddForce(initialThrustDirection.normalized * initialThrustForce);
-                _launched = true;
-            }
-        }
+    }
+
+    public void ShipAte()
+    {
+        Destroy(_ship);
+        isMoving = false;
+        _SetUpShip();
     }
 }

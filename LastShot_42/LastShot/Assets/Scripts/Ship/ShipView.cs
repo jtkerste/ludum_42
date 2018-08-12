@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class ShipView : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        StellarBodyModel model = other.GetComponent<StellarBodyModel>();
+        if (model)
+        {
+            if (model.isTarget)
+            {
+                // win
+                Debug.Log("o.O? win");
+            }
+        }
     }
 }

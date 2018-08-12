@@ -56,10 +56,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4133896392782816}
   - component: {fileID: 54983808390782760}
+  - component: {fileID: 136458319628837628}
   - component: {fileID: 114752957902830136}
+  - component: {fileID: 114089208114440582}
   m_Layer: 0
   m_Name: ShipPrefab
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1728212893660288}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.847, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4355792542697178}
@@ -214,6 +216,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114089208114440582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728212893660288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660355d17bfec2a4f8ddc160dc6f82e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114752957902830136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,6 +240,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardThrust: 0.1
   mass: 1
+--- !u!136 &136458319628837628
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728212893660288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.09, z: 0}
 --- !u!136 &136788885937831256
 CapsuleCollider:
   m_ObjectHideFlags: 1

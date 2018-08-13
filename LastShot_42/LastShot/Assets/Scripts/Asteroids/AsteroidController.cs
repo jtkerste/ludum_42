@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AsteroidController : MonoBehaviour
 {
+    public bool useRealGravity = true;
     public Transform asteroidContainer;
     public GameObject asteroidPrefab;
     public Transform asteroidSpawner;
@@ -14,6 +15,8 @@ public class AsteroidController : MonoBehaviour
     private List<Vector3> _spawnPositions = new List<Vector3>();
     public int numAsteroids = 0;
 
+    public List<AsteroidModel> _asteroids = new List<AsteroidModel>();
+
     private void Start()
     {
         foreach (Transform t in asteroidSpawner)
@@ -23,12 +26,17 @@ public class AsteroidController : MonoBehaviour
 
         for (int i = 0; i < maxAsteroids; i++)
         {
-            SpawnAsteroid();
+            SpawnAsteroid(null);
         }
     }
 
-    public void SpawnAsteroid()
+    public void SpawnAsteroid(AsteroidModel prev)
     {
+        if (prev)
+        {
+            _asteroids.Remove(prev);
+        }
+
         // pick a random spawner position
         int index = Random.Range(0, _spawnPositions.Count);
 
@@ -49,7 +57,38 @@ public class AsteroidController : MonoBehaviour
         rb.AddForce(dir.normalized * force);
 
         AsteroidView view = asteroid.GetComponent<AsteroidView>();
+        AsteroidModel model = asteroid.GetComponent<AsteroidModel>();
+        _asteroids.Add(model);
         view.controller = this;
         numAsteroids++;
+    }
+
+    public void ApplyGravity(float mass, Vector3 position)
+    {
+        foreach (AsteroidModel model in _asteroids)
+        {
+            Rigidbody rb = model.GetComponent<Rigidbody>();
+            if (!rb || !model) return;
+
+            // calculate the force
+            float massShip = model.mass;
+
+            Vector3 positionShip = model.transform.position;
+
+            float distance = Vector3.Distance(positionShip, position);
+
+            float force = 0.0f;
+            if (useRealGravity)
+            {
+                force = (massShip * mass) / (distance * distance);
+            }
+            else
+            {
+                force = (massShip * mass) / (distance);
+            }
+
+            Vector3 direction = position - model.transform.position;
+            rb.AddForce(direction.normalized * force);
+        }
     }
 }

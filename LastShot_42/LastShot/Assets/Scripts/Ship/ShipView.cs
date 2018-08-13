@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class ShipView : MonoBehaviour
 {
+    public bool levelComplete = false;
+    private GameStateController _gameStateController;
+    private StellarBodyController _stellarBodyController;
+
+    private void Start()
+    {
+        _gameStateController = FindObjectOfType<GameStateController>();
+        _stellarBodyController = FindObjectOfType<StellarBodyController>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         StellarBodyModel model = other.GetComponent<StellarBodyModel>();
@@ -12,7 +22,12 @@ public class ShipView : MonoBehaviour
             if (model.isTarget)
             {
                 // win
-                Debug.Log("o.O? win");
+                if (!levelComplete)
+                {
+                    _stellarBodyController.ActiveModelNotNeeded();
+                    _gameStateController.LevelComplete();
+                    levelComplete = true;
+                }
             }
         }
     }

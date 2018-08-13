@@ -8,6 +8,7 @@ public class BlackHoleView : MonoBehaviour
     public Transform aura;
 
     private StellarBodyController _stellarBodyController;
+    private BlackHoleController _blackHoleController;
     private ShipController _shipController;
 
     // Use this for initialization
@@ -15,13 +16,32 @@ public class BlackHoleView : MonoBehaviour
     {
         _stellarBodyController = FindObjectOfType<StellarBodyController>();
         _shipController = FindObjectOfType<ShipController>();
+        _blackHoleController = FindObjectOfType<BlackHoleController>();
+
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "StellarBody")
         {
-            _stellarBodyController.ThisEatsThat(stellarBodyModel, other.GetComponent<StellarBodyModel>());
+            StellarBodyModel otherModel = other.GetComponent<StellarBodyModel>();
+            if (other.name.Contains("BlackHole"))
+            {
+                // make sure we don't eat the one we are placing
+                if (stellarBodyModel.timeCreated < otherModel.timeCreated)
+                {
+                    _stellarBodyController.ThisEatsThat(otherModel, stellarBodyModel);
+                }
+                else
+                {
+                    _stellarBodyController.ThisEatsThat(stellarBodyModel, otherModel);
+                }
+            }
+            else
+            {
+                _stellarBodyController.ThisEatsThat(stellarBodyModel, other.GetComponent<StellarBodyModel>());
+            }
         }
         else if (other.tag == "Ship")
         {

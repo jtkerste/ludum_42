@@ -9,12 +9,15 @@ public class ShipController : MonoBehaviour
     public bool useRealGravity = false;
 
     public Vector3 initialThrustDirection;
-    public float initialThrustForce;
+    public List<float> initialThrustForces = new List<float>();
+    public int thrustIndex = 0;
 
     public float rotationSpeed = 1.0f;
 
     public GameObject shipPrefab;
-    public Transform _initialShipTransform;
+    public Transform shipStartContainer;
+    private List<Transform> _shipStartTransforms = new List<Transform>();
+    public int shipStartIndex = 0;
 
     private ShipModel _shipModel;
     private GameObject _ship;
@@ -25,6 +28,10 @@ public class ShipController : MonoBehaviour
 
     public void Start()
     {
+        foreach (Transform t in shipStartContainer)
+        {
+            _shipStartTransforms.Add(t);
+        }
         _SetUpShip();
     }
 
@@ -56,8 +63,8 @@ public class ShipController : MonoBehaviour
     private void _SetUpShip()
     {
         _ship = Instantiate(shipPrefab);
-        _ship.transform.position = _initialShipTransform.position;
-        _ship.transform.rotation = _initialShipTransform.rotation;
+        _ship.transform.position = _shipStartTransforms[shipStartIndex].position;
+        _ship.transform.rotation = _shipStartTransforms[shipStartIndex].rotation;
 
         _shipModel = _ship.GetComponent<ShipModel>();
         _shipRigidBody = _ship.GetComponent<Rigidbody>();
@@ -72,7 +79,8 @@ public class ShipController : MonoBehaviour
         if (_shipRigidBody && !_launched)
         {
             _shipRigidBody.isKinematic = false;
-            _shipRigidBody.AddForce(initialThrustDirection.normalized * initialThrustForce);
+            Vector3 dir = _ship.transform.up;
+            _shipRigidBody.AddForce(dir.normalized * initialThrustForces[thrustIndex]);
             _launched = true;
             isMoving = true;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BlackHoleController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class BlackHoleController : MonoBehaviour
 
     private StellarBodyController _stellarBodyController;
 
+    public StellarBodyModel activeBody;
+
     private void Start()
     {
         _stellarBodyController = FindObjectOfType<StellarBodyController>();
@@ -30,7 +33,9 @@ public class BlackHoleController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(_StartBlackHolePlace(Input.mousePosition));
+            // ignore placement if over ui
+            if(!EventSystem.current.IsPointerOverGameObject())
+                StartCoroutine(_StartBlackHolePlace(Input.mousePosition));
         }
         if (Input.GetKey(KeyCode.J) && Input.GetKeyDown(KeyCode.K))
         {
@@ -53,6 +58,7 @@ public class BlackHoleController : MonoBehaviour
 
             StellarBodyModel stellarBodyModel = blackHole.GetComponent<StellarBodyModel>();
             stellarBodyModel.mass = startMass;
+
             // add the black hole to the stellar body controller
             _stellarBodyController.AddBody(stellarBodyModel);
 

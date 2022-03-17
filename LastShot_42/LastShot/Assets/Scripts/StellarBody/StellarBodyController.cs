@@ -67,7 +67,7 @@ public class StellarBodyController : MonoBehaviour
     private void _Initialize()
     {
         // spawn our planets
-        for(int i = 0; i < planetConfig.childCount; i++)
+        for (int i = 0; i < planetConfig.childCount; i++)
         {
             Transform state = planetConfig.GetChild(i);
             GameObject planet = Instantiate(planetPrefab);
@@ -119,7 +119,7 @@ public class StellarBodyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (_shipController == null) return;
 
@@ -161,7 +161,7 @@ public class StellarBodyController : MonoBehaviour
 
     public IEnumerator _Grow(StellarBodyModel model)
     {
-        while (gameObject)
+        while (gameObject && model)
         {
             model.mass += 0.4f;
             model.transform.localScale = Vector3.one * model.mass / 5.0f;
